@@ -1,0 +1,33 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {},
+    "functions": [],
+    "variables": {},
+    "resources": [
+        {
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2019-10-01",
+            "name": "cosmosAccount",
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "https://raw.githubusercontent.com/vinomanoharan/arm-template/main/cosmos.json",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                }
+            }
+        }
+    ],
+    "outputs": {
+        "connectionString":{
+            "type": "string",
+            "value" : "[listConnectionStrings(resourceId('Microsoft.DocumentDb/databaseAccounts', 'testingcomosdb2021'),'2019-12-12').connectionStrings[0].connectionString]"
+        },
+        "connectionString2":{
+            "type": "string",
+            "value" : "[reference('cosmosAccount').outputs.connectionString.value]"
+        }
+    }
+}
